@@ -26,9 +26,9 @@ namespace Psinder.Repositories
 
         public async Task<IEnumerable<Shelter>> GetAllAsync()
         {
-            var result = _context.Shelters
+            var result = await _context.Shelters
                 .Include(a => a.Animals)
-                .ToList();
+                .ToListAsync();
             return result;
         }
 
@@ -38,11 +38,6 @@ namespace Psinder.Repositories
                 Include(a => a.Animals).
                 FirstOrDefaultAsync(s => s.Id == id);
             return result;
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
         }
 
         public void Update(Shelter entity)

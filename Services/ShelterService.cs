@@ -9,29 +9,29 @@ namespace Psinder.Services
 {
     public class ShelterService : IShelterService
     {
-        private readonly IShelterRepository _shelterRepository;
+        private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        public ShelterService(IShelterRepository shelterRepository, IMapper mapper)
+        public ShelterService(IUnitOfWork uow, IMapper mapper)
         {
-            _shelterRepository = shelterRepository;
+            _uow = uow;
             _mapper = mapper;
         }
 
         public async Task<int> AddAsync(CreateShelterDto dto)
         {
             var shelter = _mapper.Map<Shelter>(dto);
-            await _shelterRepository.AddAsync(shelter);
-            await _shelterRepository.SaveChangesAsync();
+            await _uow.ShelterRepository.AddAsync(shelter);
+            await _uow.Complete();
             return shelter.Id;
         }
 
         public async Task DeleteAsync(int id)
         {
-            var shelter = await _shelterRepository.GetByIdAsync(id);
+            var shelter = await _uow.ShelterRepository.GetByIdAsync(id);
             if (shelter != null)
             {
-                _shelterRepository.Delete(shelter);
-                await _shelterRepository.SaveChangesAsync();
+                _uow.ShelterRepository.Delete(shelter);
+                await _uow.Complete();
             }
             else 
             {
@@ -41,14 +41,14 @@ namespace Psinder.Services
 
         public async Task<IEnumerable<ShelterDto>> GetAllAsync()
         {
-            var shelters =  await _shelterRepository.GetAllAsync();
+            var shelters =  await _uow.ShelterRepository.GetAllAsync();
             var result = _mapper.Map<List<ShelterDto>>(shelters);
             return result;
         }
 
         public async Task<ShelterDto> GetByIdAsync(int id)
         {
-            var shelter = await _shelterRepository.GetByIdAsync(id);
+            var shelter = await _uow.ShelterRepository.GetByIdAsync(id);
             if (shelter != null)
             {
                 return _mapper.Map<ShelterDto>(shelter);
@@ -61,11 +61,11 @@ namespace Psinder.Services
 
         public async Task UpdateAsync(int id, UpdateShelterDto dto)
         {
-            var shelter = await _shelterRepository.GetByIdAsync(id);
+            var shelter = await _uow.ShelterRepository.GetByIdAsync(id);
             if(shelter != null)
             {
                 _mapper.Map(dto, shelter);
-                await _shelterRepository.SaveChangesAsync();
+                await _uow.Complete();
             }
             else
             {

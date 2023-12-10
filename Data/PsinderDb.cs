@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Psinder.Data;
 using System.Xml.Serialization;
 
-namespace Psinder
+namespace Psinder.Data
 {
-    public class PsinderDb : DbContext 
+    public class PsinderDb : DbContext
     {
         public DbSet<Shelter> Shelters { get; set; }
         public DbSet<Animal> Animals { get; set; }

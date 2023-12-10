@@ -1,5 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using Psinder;
+using Psinder.Data;
+using Psinder.Helpers;
+using Psinder.Middleware;
+using Psinder.Repositories;
+using Psinder.Repositories.Interfaces;
+using Psinder.Services;
+using Psinder.Services.Interfaces;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +19,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PsinderDb>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("Psinder")));
 builder.Services.AddScoped<ShelterSeeder>();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
+builder.Services.AddScoped<IShelterService, ShelterService>();
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 var app = builder.Build();
 
@@ -25,6 +36,8 @@ var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<ShelterSeeder>();
 
 seeder.Seed();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

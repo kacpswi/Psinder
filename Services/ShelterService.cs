@@ -1,33 +1,76 @@
-﻿using Psinder.Dtos;
-using Psinder.Interfaces;
+﻿using Psinder.Data;
+using Psinder.Dtos;
+using Psinder.Repositories.Interfaces;
+using Psinder.Services.Interfaces;
+using Psinder.Exceptions;
+using AutoMapper;
 
 namespace Psinder.Services
 {
     public class ShelterService : IShelterService
     {
-        public void CreateShelter(CreateShelterDto shelter)
+        private readonly IShelterRepository _shelterRepository;
+        private readonly IMapper _mapper;
+        public ShelterService(IShelterRepository shelterRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _shelterRepository = shelterRepository;
+            _mapper = mapper;
         }
 
-        public void DeleteShelter(int id)
+        public async Task<int> AddAsync(CreateShelterDto dto)
         {
-            throw new NotImplementedException();
+            var shelter = _mapper.Map<Shelter>(dto);
+            await _shelterRepository.AddAsync(shelter);
+            await _shelterRepository.SaveChangesAsync();
+            return shelter.Id;
         }
 
-        public ShelterDto GetShelter(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var shelter = await _shelterRepository.GetByIdAsync(id);
+            if (shelter != null)
+            {
+                _shelterRepository.Delete(shelter);
+                await _shelterRepository.SaveChangesAsync();
+            }
+            else 
+            {
+                throw new NotFoundException("Shelter not found");
+            }
         }
 
-        public IEnumerable<ShelterDto> GetShelters()
+        public async Task<IEnumerable<ShelterDto>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var shelters =  await _shelterRepository.GetAllAsync();
+            var result = _mapper.Map<List<ShelterDto>>(shelters);
+            return result;
         }
 
-        public void ModifyShelter(int id)
+        public async Task<ShelterDto> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var shelter = await _shelterRepository.GetByIdAsync(id);
+            if (shelter != null)
+            {
+                return _mapper.Map<ShelterDto>(shelter);
+            }
+            else
+            {
+                throw new NotFoundException("Shelter not found");
+            }
+        }
+
+        public async Task UpdateAsync(int id, UpdateShelterDto dto)
+        {
+            var shelter = await _shelterRepository.GetByIdAsync(id);
+            if(shelter != null)
+            {
+                _mapper.Map(dto, shelter);
+                await _shelterRepository.SaveChangesAsync();
+            }
+            else
+            {
+                throw new NotFoundException("Shelter not found");
+            }
         }
     }
 }

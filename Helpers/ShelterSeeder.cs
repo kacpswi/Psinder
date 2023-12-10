@@ -1,7 +1,7 @@
 ﻿using Microsoft.Identity.Client;
 using Psinder.Data;
 
-namespace Psinder
+namespace Psinder.Helpers
 {
     public class ShelterSeeder
     {

@@ -21,9 +21,14 @@ namespace Psinder.Repositories
             _context.Animals.Remove(entity);
         }
 
-        public async Task<IEnumerable<Animal>> GetAllAsync()
+        public async Task<IEnumerable<Animal>> GetAllAsync(int shelterId)
         {
-            return await _context.Animals.ToListAsync();
+            return await _context.Animals.Where(a => a.ShelterId == shelterId).ToListAsync();
+        }
+
+        public Task<IEnumerable<Animal>> GetAllAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Animal> GetByIdAsync(int id)

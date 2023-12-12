@@ -1,5 +1,5 @@
 ﻿using Psinder.Data;
-using Psinder.Dtos;
+using Psinder.Dtos.ShelterDtos;
 
 namespace Psinder.Services.Interfaces
 {

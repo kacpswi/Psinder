@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Psinder.Dtos;
+using Psinder.Dtos.ShelterDtos;
 using Psinder.Services.Interfaces;
 
 namespace Psinder.Controllers

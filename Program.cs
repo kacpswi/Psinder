@@ -24,6 +24,8 @@ builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
 builder.Services.AddScoped<IShelterService, ShelterService>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+builder.Services.AddScoped<IAnimalService, AnimalService>();
 
 var app = builder.Build();
 

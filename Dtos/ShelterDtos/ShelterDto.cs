@@ -1,6 +1,6 @@
 ﻿using Psinder.Data;
 
-namespace Psinder.Dtos
+namespace Psinder.Dtos.ShelterDtos
 {
     public class ShelterDto
     {

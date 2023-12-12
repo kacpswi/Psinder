@@ -24,6 +24,7 @@ namespace Psinder.Repositories
             _context.Shelters.Remove(entity);
         }
 
+
         public async Task<IEnumerable<Shelter>> GetAllAsync()
         {
             var result = await _context.Shelters
@@ -31,6 +32,7 @@ namespace Psinder.Repositories
                 .ToListAsync();
             return result;
         }
+
 
         public async Task<Shelter> GetByIdAsync(int id)
         {

@@ -1,4 +1,4 @@
-﻿namespace Psinder.Dtos
+﻿namespace Psinder.Dtos.ShelterDtos
 {
     public class CreateShelterDto
     {

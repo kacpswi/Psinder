@@ -1,9 +1,9 @@
 ﻿using Psinder.Data;
-using Psinder.Dtos;
 using Psinder.Repositories.Interfaces;
 using Psinder.Services.Interfaces;
 using Psinder.Exceptions;
 using AutoMapper;
+using Psinder.Dtos.ShelterDtos;
 
 namespace Psinder.Services
 {

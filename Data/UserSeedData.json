@@ -1,0 +1,22 @@
+[
+    {
+        "UserName": "Kacper",
+        "City": "Sosnowiec",
+        "Country": "Polska"
+    },
+    {
+        "UserName": "Bartosz",
+        "City": "Gliwice",
+        "Country": "Polska"
+    },
+  {
+    "UserName": "Szymon",
+    "City": "Katowice",
+    "Country": "Polska"
+  },
+  {
+    "UserName": "Julia",
+    "City": "Sosnowiec",
+    "Country": "Polska"
+  }
+]

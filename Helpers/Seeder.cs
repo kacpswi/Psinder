@@ -19,9 +19,10 @@ namespace Psinder.Helpers
 
             var roles = new List<Role>
             {
-                new Role{Name = "Member"},
+                new Role{Name = "User"},
+                new Role{Name = "ShelterWorker"},
                 new Role{Name = "Admin"},
-                new Role{Name = "Moderator"}
+                new Role{Name = "ShelterOwner"}
             };
 
             foreach (var role in roles)
@@ -31,16 +32,22 @@ namespace Psinder.Helpers
 
             foreach (var user in users)
             {
+                user.UserName = user.Email;
                 await userManager.CreateAsync(user, "Pa$$w0rd");
-                await userManager.AddToRoleAsync(user, "Member");
+                await userManager.AddToRoleAsync(user, "User");
             }
 
             var admin = new User
             {
                 UserName = "admin",
+                Name = "admin",
+                Surename = "admin",
+                City = "admin",
+                Country = "admin",
+                Email = "admin",
             };
             var result = await userManager.CreateAsync(admin, "Pa$$w0rd");
-            await userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" });
+            await userManager.AddToRolesAsync(admin, new[] { "Admin" });
         }
 
         public static async Task SeedShelters(PsinderDb context)

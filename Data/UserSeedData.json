@@ -1,21 +1,29 @@
 [
-    {
-        "UserName": "Kacper",
-        "City": "Sosnowiec",
-        "Country": "Polska"
-    },
-    {
-        "UserName": "Bartosz",
-        "City": "Gliwice",
-        "Country": "Polska"
-    },
   {
-    "UserName": "Szymon",
+    "Email": "kacper@gmail.com",
+    "Name": "Kacper",
+    "Surename": "xxx",
+    "City": "Sosnowiec",
+    "Country": "Polska"
+  },
+  {
+    "Email": "bartosz@gmail.com",
+    "Name": "Bartosz",
+    "Surename": "xxx",
+    "City": "Gliwice",
+    "Country": "Polska"
+  },
+  {
+    "Email": "szymon@gmail.com",
+    "Name": "Szymon",
+    "Surename": "xxx",
     "City": "Katowice",
     "Country": "Polska"
   },
   {
-    "UserName": "Julia",
+    "Email": "julia@gmail.com",
+    "Name": "Julia",
+    "Surename": "xxx",
     "City": "Sosnowiec",
     "Country": "Polska"
   }

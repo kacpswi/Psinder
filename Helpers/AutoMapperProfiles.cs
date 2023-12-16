@@ -2,6 +2,7 @@
 using Psinder.Data;
 using Psinder.Dtos.AnimalDtos;
 using Psinder.Dtos.ShelterDtos;
+using Psinder.Dtos.UserDtos;
 
 namespace Psinder.Helpers
 {
@@ -16,6 +17,8 @@ namespace Psinder.Helpers
             CreateMap<Animal, AnimalDto>();
             CreateMap<CreateAnimalDto, Animal>();
             CreateMap<UpdateAnimalDto, Animal>();
+
+            CreateMap<RegisterUserDto, User>();
         } 
     }
 }

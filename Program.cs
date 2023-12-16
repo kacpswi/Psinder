@@ -19,7 +19,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PsinderDb>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("Psinder")));
-builder.Services.AddScoped<ShelterSeeder>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
 builder.Services.AddScoped<IShelterService, ShelterService>();
@@ -27,6 +26,8 @@ builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 builder.Services.AddIdentityCore<User>(opt =>
 {

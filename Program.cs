@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Psinder.Data;
 using Psinder.Helpers;
 using Psinder.Middleware;
@@ -8,6 +10,7 @@ using Psinder.Repositories.Interfaces;
 using Psinder.Services;
 using Psinder.Services.Interfaces;
 using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +31,27 @@ builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding
+                            .UTF8.GetBytes(builder.Configuration.GetRequiredSection("TokenKey").Value)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
+
+
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
+});
 
 builder.Services.AddIdentityCore<User>(opt =>
 {
@@ -50,6 +74,7 @@ app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

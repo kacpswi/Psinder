@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Psinder.Dtos.ShelterDtos;
 using Psinder.Services.Interfaces;
@@ -21,6 +22,7 @@ namespace Psinder.Controllers
             return Ok(result);
         }
 
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShelterDto>>> GetAll()
         {

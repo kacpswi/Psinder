@@ -4,6 +4,7 @@
     {
         IShelterRepository ShelterRepository { get; }
         IAnimalRepository AnimalRepository { get; }
+        ILikeRepository LikeRepository { get; }
         Task<bool> Complete();
     }
 }

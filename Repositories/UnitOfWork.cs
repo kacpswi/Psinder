@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Psinder.Repositories;
+using Psinder.Data;
 using Psinder.Repositories.Interfaces;
 
-namespace Psinder.Data
+namespace Psinder.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -16,6 +16,8 @@ namespace Psinder.Data
         public IShelterRepository ShelterRepository => new ShelterRepository(_context);
 
         public IAnimalRepository AnimalRepository => new AnimalRepository(_context);
+
+        public ILikeRepository LikeRepository => new LikeRepository(_context);
 
         public async Task<bool> Complete()
         {

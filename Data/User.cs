@@ -9,5 +9,6 @@ namespace Psinder.Data
         public string? City { get; set; }
         public string? Country { get; set; }
         public List<UserRole> UserRoles { get; set; }
+        public List<UserLike> LikedAnimals { get; set; }
     }
 }

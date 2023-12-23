@@ -22,7 +22,7 @@ namespace Psinder.Controllers
             return Ok(result);
         }
 
-        //[Authorize]
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShelterDto>>> GetAll()
         {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Psinder.Data;
 using Psinder.Dtos.AnimalDtos;
+using Psinder.Dtos.MessageDtos;
 using Psinder.Dtos.ShelterDtos;
 using Psinder.Dtos.UserDtos;
 
@@ -19,6 +20,8 @@ namespace Psinder.Helpers
             CreateMap<UpdateAnimalDto, Animal>();
 
             CreateMap<RegisterUserDto, User>();
+
+            CreateMap<Message, MessageDto>();
         } 
     }
 }

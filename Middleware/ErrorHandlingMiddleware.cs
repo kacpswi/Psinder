@@ -20,6 +20,11 @@ namespace Psinder.Middleware
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(badRequestException.Message);
             }
+            catch (UnauthorizedException badRequestException)
+            {
+                context.Response.StatusCode = 401;
+                await context.Response.WriteAsync(badRequestException.Message);
+            }
             catch (Exception e)
             {
                 context.Response.StatusCode = 500;

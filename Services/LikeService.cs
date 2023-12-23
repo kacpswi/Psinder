@@ -41,7 +41,8 @@ namespace Psinder.Services
                 AnimalId = animalId,
             };
 
-            user.LikedAnimals.Add(userLike);
+            await _uow.LikeRepository.AddLike(user,userLike);
+            await _uow.Complete();
 
         }
 

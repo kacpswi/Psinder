@@ -34,5 +34,10 @@ namespace Psinder.Repositories
                 .Include(x => x.LikedAnimals)
                 .FirstOrDefaultAsync(x => x.Id == userId);
         }
+
+        public async Task AddLike(User user, UserLike userLike)
+        {
+            user.LikedAnimals.Add(userLike);
+        }
     }
 }

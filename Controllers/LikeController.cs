@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Psinder.Dtos.AnimalDtos;
 using Psinder.Extensions;
 using Psinder.Services.Interfaces;
 
 namespace Psinder.Controllers
 {
+    [Route("api/like")]
     [ApiController]
+    [Authorize]
     public class LikeController : ControllerBase
     {
         private readonly ILikeService _likeService;
@@ -15,7 +18,7 @@ namespace Psinder.Controllers
         }
 
         [HttpPost("{animalId}")]
-        public async Task<ActionResult> AddLike(int animalId)
+        public async Task<ActionResult> AddLike([FromRoute] int animalId)
         {
             
             await _likeService.AddLikeAsync(animalId, User.GetUserId());

@@ -12,6 +12,7 @@ namespace Psinder.Data
         public DbSet<Shelter> Shelters { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<UserLike> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
         public PsinderDb(DbContextOptions<PsinderDb> options) : base(options)
         {
         }
@@ -62,6 +63,15 @@ namespace Psinder.Data
                 .HasForeignKey(s => s.AnimalId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Message>()
+                .HasOne(u => u.Recipient)
+                .WithMany(m => m.MessagesReceived)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(u => u.Sender)
+                .WithMany(m => m.MessagesSend)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

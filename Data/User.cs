@@ -10,5 +10,7 @@ namespace Psinder.Data
         public string? Country { get; set; }
         public List<UserRole> UserRoles { get; set; }
         public List<UserLike> LikedAnimals { get; set; }
+        public List<Message> MessagesReceived { get; set; }
+        public List<Message> MessagesSend { get; set; }
     }
 }

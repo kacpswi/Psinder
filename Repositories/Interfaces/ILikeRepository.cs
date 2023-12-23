@@ -7,5 +7,6 @@ namespace Psinder.Repositories.Interfaces
         Task<User> GetUserWithLikesAsync(int userId);
         Task<UserLike> GetUserLikeAsync(int userId, int animalId);
         Task<List<Animal>> GetUserLikesAsync(int userId);
+        Task AddLike(User user, UserLike userLike);
     }
 }

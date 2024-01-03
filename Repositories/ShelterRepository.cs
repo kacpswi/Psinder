@@ -2,7 +2,9 @@
 using Psinder.Data;
 using Psinder.Dtos;
 using Psinder.Exceptions;
+using Psinder.Helpers;
 using Psinder.Repositories.Interfaces;
+using System.Linq.Expressions;
 
 namespace Psinder.Repositories
 {
@@ -25,12 +27,36 @@ namespace Psinder.Repositories
         }
 
 
-        public async Task<IEnumerable<Shelter>> GetAllAsync()
+        public async Task<Pagination<Shelter>> GetAllAsync(PageQuery query)
         {
-            var result = await _context.Shelters
+            var baseQuery = _context.Shelters
                 .Include(a => a.Animals)
-                .ToListAsync();
-            return result;
+                .Where(r => query.SearchPhrase == null || (r.Name.ToLower().Contains(query.SearchPhrase.ToLower())
+                                                    || r.Description.ToLower().Contains(query.SearchPhrase.ToLower())));
+
+            if (!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columnsSelectors = new Dictionary<string, Expression<Func<Shelter, object>>>
+                {
+                    { nameof(Shelter.Name), r => r.Name},
+                    { nameof(Shelter.Description), r => r.Description},
+                };
+
+                var selectedColumn = columnsSelectors[query.SortBy];
+
+                baseQuery = query.SortDirection == SortDirection.ASC ?
+                    baseQuery.OrderBy(selectedColumn)
+                    : baseQuery.OrderByDescending(selectedColumn);
+            }
+
+            var shelters = baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToList();
+
+            var totalItemsCount = baseQuery.Count();
+
+            return new Pagination<Shelter>(shelters, totalItemsCount);
         }
 
 

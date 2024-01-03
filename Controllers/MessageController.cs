@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Psinder.Dtos.MessageDtos;
 using Psinder.Extensions;
+using Psinder.Helpers;
 using Psinder.Services.Interfaces;
 
 namespace Psinder.Controllers
@@ -24,9 +25,9 @@ namespace Psinder.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<List<MessageDto>>> GetMessage()
+        public async Task<ActionResult<List<MessageDto>>> GetMessages([FromQuery] PageQuery query)
         {
-            var result = await _messageService.GetMessagesForUserAsync(User.GetUserId());
+            var result = await _messageService.GetMessagesForUserAsync(User.GetUserId(), query);
             return Ok(result);
         }
 

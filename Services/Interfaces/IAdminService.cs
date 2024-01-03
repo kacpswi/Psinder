@@ -1,4 +1,5 @@
 ﻿using Psinder.Data;
+using Psinder.Helpers;
 
 namespace Psinder.Services.Interfaces
 {
@@ -6,6 +7,6 @@ namespace Psinder.Services.Interfaces
     {
         Task<IEnumerable<object>> GetUsersWithRolesAsync();
         Task EditUserRolesAsync(int userId, string roles);
-        Task<IEnumerable<User>> GetUsersAsync();
+        Task<PagedResult<User>> GetUsersAsync(PageQuery query);
     }
 }

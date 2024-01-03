@@ -11,6 +11,7 @@ namespace Psinder.Data
         public int ShelterId { get; set; }
         [JsonIgnore]
         public Shelter Shelter { get; set; }
+        [JsonIgnore]
         public List<UserLike> LikedByUsers { get; set; }
     }
 }

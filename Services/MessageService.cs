@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Psinder.Data;
 using Psinder.Dtos.MessageDtos;
+using Psinder.Dtos.ShelterDtos;
 using Psinder.Exceptions;
+using Psinder.Helpers;
 using Psinder.Repositories.Interfaces;
 using Psinder.Services.Interfaces;
 
@@ -52,10 +54,15 @@ namespace Psinder.Services
             await _uow.Complete();
         }
 
-        public async Task<List<MessageDto>> GetMessagesForUserAsync(int userId)
+        public async Task<PagedResult<MessageDto>> GetMessagesForUserAsync(int userId, PageQuery query)
         {
-            var messages = await _uow.MessageRepository.GetMessagesAsync(userId);
-            return _mapper.Map<List<MessageDto>>(messages);
+            var paginationResult = await _uow.MessageRepository.GetMessagesAsync(userId, query);
+
+            var sheltersDto = _mapper.Map<List<MessageDto>>(paginationResult.Data);
+
+            var result = new PagedResult<MessageDto>(sheltersDto, paginationResult.TotalCount, query.PageSize, query.PageNumber);
+
+            return result;
 
         }
 

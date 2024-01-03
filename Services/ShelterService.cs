@@ -4,6 +4,9 @@ using Psinder.Services.Interfaces;
 using Psinder.Exceptions;
 using AutoMapper;
 using Psinder.Dtos.ShelterDtos;
+using Psinder.Helpers;
+using System.Linq.Expressions;
+using System.Linq;
 
 namespace Psinder.Services
 {
@@ -39,10 +42,14 @@ namespace Psinder.Services
             }
         }
 
-        public async Task<IEnumerable<ShelterDto>> GetAllAsync()
+        public async Task<PagedResult<ShelterDto>> GetAllAsync(PageQuery query)
         {
-            var shelters =  await _uow.ShelterRepository.GetAllAsync();
-            var result = _mapper.Map<List<ShelterDto>>(shelters);
+            var paginationResult =  await _uow.ShelterRepository.GetAllAsync(query);
+
+            var sheltersDto = _mapper.Map<List<ShelterDto>>(paginationResult.Data);
+            
+            var result = new PagedResult<ShelterDto>(sheltersDto, paginationResult.TotalCount, query.PageSize, query.PageNumber);
+
             return result;
         }
 

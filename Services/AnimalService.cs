@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Psinder.Data;
 using Psinder.Dtos.AnimalDtos;
+using Psinder.Dtos.ShelterDtos;
 using Psinder.Exceptions;
+using Psinder.Helpers;
 using Psinder.Repositories.Interfaces;
 using Psinder.Services.Interfaces;
 
@@ -35,11 +37,15 @@ namespace Psinder.Services
             
         }
 
-        public async Task<List<AnimalDto>> GetAllAsync()
+        public async Task<PagedResult<AnimalDto>> GetAllAsync(PageQuery query)
         {
-            var animals = _uow.AnimalRepository.GetAllAsync();
-            var results = _mapper.Map<List<AnimalDto>>(animals);
-            return results;
+            var paginationResult = await _uow.AnimalRepository.GetAllAsync(query);
+
+            var animalDto = _mapper.Map<List<AnimalDto>>(paginationResult.Data);
+
+            var result = new PagedResult<AnimalDto>(animalDto, paginationResult.TotalCount, query.PageSize, query.PageNumber);
+
+            return result;
         }
 
         public async Task<List<AnimalDto>> GetAllForShelter(int shelterId)

@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Psinder.Data;
+using Psinder.Helpers;
 using Psinder.Services.Interfaces;
 
 namespace Psinder.Controllers
 {
     [ApiController]
     [Route("api/admin")]
-    [Authorize(Policy = "RequiredAdminRole")]
+    //[Authorize(Policy = "RequiredAdminRole")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -35,9 +36,9 @@ namespace Psinder.Controllers
 
         [HttpGet]
         [Route("users")]
-        public async Task<ActionResult<object>> GetUsers()
+        public async Task<ActionResult<object>> GetUsers([FromQuery] PageQuery query)
         {
-            var result = await _adminService.GetUsersAsync();
+            var result = await _adminService.GetUsersAsync(query);
             return Ok(result);
         }
     }

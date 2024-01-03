@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Psinder.Data;
 using Psinder.Dtos.ShelterDtos;
+using Psinder.Helpers;
 using Psinder.Services.Interfaces;
 
 namespace Psinder.Controllers
@@ -24,9 +26,9 @@ namespace Psinder.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ShelterDto>>> GetAll()
+        public async Task<ActionResult<PagedResult<ShelterDto>>> GetAll([FromQuery]PageQuery query)
         {
-            var result = await _shelterService.GetAllAsync();
+            var result = await _shelterService.GetAllAsync(query);
             return Ok(result);
         }
 

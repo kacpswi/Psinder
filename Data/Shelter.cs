@@ -10,7 +10,7 @@
         public string? BuildingNumber { get; set; }
         public string? Description { get; set; }
         public int? CreatedById { get; set; }
-        public virtual User CreatedBy { get; set; }
         public List<Animal> Animals { get; set; } = new();
+        public List<User> Workers { get; set; } = new();
     }
 }

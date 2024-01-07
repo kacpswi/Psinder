@@ -31,6 +31,7 @@ namespace Psinder.Repositories
         {
             var baseQuery = _context.Shelters
                 .Include(a => a.Animals)
+                .Include(w => w.Workers)
                 .Where(r => query.SearchPhrase == null || (r.Name.ToLower().Contains(query.SearchPhrase.ToLower())
                                                     || r.Description.ToLower().Contains(query.SearchPhrase.ToLower())));
 

@@ -20,7 +20,7 @@ namespace Psinder.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            
             modelBuilder.Entity<User>()
                 .HasMany(ur => ur.UserRoles)
                 .WithOne(u => u.User)

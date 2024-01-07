@@ -20,6 +20,7 @@ namespace Psinder.Helpers
             CreateMap<UpdateAnimalDto, Animal>();
 
             CreateMap<RegisterUserDto, User>();
+            CreateMap<User, UserDto>();
 
             CreateMap<Message, MessageDto>();
         } 

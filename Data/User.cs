@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 namespace Psinder.Data
 {
@@ -12,5 +13,8 @@ namespace Psinder.Data
         public List<UserLike> LikedAnimals { get; set; }
         public List<Message> MessagesReceived { get; set; }
         public List<Message> MessagesSend { get; set; }
+        public int? ShelterId { get; set; }
+        [JsonIgnore]
+        public Shelter? Shelter { get; set; }
     }
 }

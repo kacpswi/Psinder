@@ -1,5 +1,6 @@
 ﻿using Psinder.Data;
 using Psinder.Dtos.AnimalDtos;
+using Psinder.Dtos.UserDtos;
 
 namespace Psinder.Dtos.ShelterDtos
 {
@@ -13,6 +14,7 @@ namespace Psinder.Dtos.ShelterDtos
         public string? BuildingNumber { get; set; }
         public string? Description { get; set; }
         public int? CreatedById { get; set; }
+        public List<UserDto> Workers { get; set; }
         public List<AnimalDto> Animals { get; set; }
     }
 }

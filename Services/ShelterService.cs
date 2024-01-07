@@ -24,6 +24,12 @@ namespace Psinder.Services
         {
             var shelter = _mapper.Map<Shelter>(dto);
             shelter.CreatedById = userId;
+            var user = await _uow.UserRepository.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                throw new NotFoundException("User not found");
+            }
+            shelter.Workers.Add(user);
             await _uow.ShelterRepository.AddAsync(shelter);
             await _uow.Complete();
             return shelter.Id;
@@ -48,7 +54,7 @@ namespace Psinder.Services
             var paginationResult =  await _uow.ShelterRepository.GetAllAsync(query);
 
             var sheltersDto = _mapper.Map<List<ShelterDto>>(paginationResult.Data);
-            
+                     
             var result = new PagedResult<ShelterDto>(sheltersDto, paginationResult.TotalCount, query.PageSize, query.PageNumber);
 
             return result;

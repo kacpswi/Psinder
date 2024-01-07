@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Psinder.Data;
 using Psinder.Dtos.ShelterDtos;
+using Psinder.Extensions;
 using Psinder.Helpers;
 using Psinder.Services.Interfaces;
 
@@ -35,7 +36,7 @@ namespace Psinder.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] CreateShelterDto dto)
         {
-            var id = await _shelterService.AddAsync(dto);
+            var id = await _shelterService.AddAsync(dto, User.GetUserId());
             return Created($"/api/shelter/{id}", null);
         }
 

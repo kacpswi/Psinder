@@ -33,7 +33,7 @@ namespace Psinder.Repositories
         public async Task<Pagination<Message>> GetMessagesAsync(int userId, PageQuery query)
         {
             var baseQuery = _context.Messages
-                .OrderByDescending(x => x.MessageSend)
+                .OrderBy(x => x.MessageSend)
                 .Where(m => (m.RecipientId == userId || m.SenderId == userId))
                 .Where(m => m.RecipientId == userId && m.RecipientDeleted == false ||
                         m.SenderId == userId && m.SenderDeleted == false)
@@ -48,13 +48,6 @@ namespace Psinder.Repositories
             var totalItemsCount = baseQuery.Count();
 
             return new Pagination<Message>(messages, totalItemsCount);
-
-            //return await _context.Messages
-            //    .OrderByDescending(x => x.MessageSend)
-            //    .Where(m => (m.RecipientId == userId || m.SenderId == userId))
-            //    .Where(m => m.RecipientId == userId && m.RecipientDeleted == false ||
-            //            m.SenderId == userId && m.SenderDeleted == false)
-            //    .ToListAsync();
         }
     }
 }

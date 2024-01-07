@@ -20,9 +20,10 @@ namespace Psinder.Services
             _mapper = mapper;
         }
 
-        public async Task<int> AddAsync(CreateShelterDto dto)
+        public async Task<int> AddAsync(CreateShelterDto dto, int userId)
         {
             var shelter = _mapper.Map<Shelter>(dto);
+            shelter.CreatedById = userId;
             await _uow.ShelterRepository.AddAsync(shelter);
             await _uow.Complete();
             return shelter.Id;

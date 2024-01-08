@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Psinder.Data;
+using Psinder.Extensions;
 using Psinder.Helpers;
 using Psinder.Middleware;
 using Psinder.Repositories;
@@ -15,58 +16,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<PsinderDb>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("Psinder")));
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
-builder.Services.AddScoped<IShelterService, ShelterService>();
-builder.Services.AddScoped<ErrorHandlingMiddleware>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
-builder.Services.AddScoped<IAnimalService, AnimalService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddScoped<ILikeRepository, LikeRepository>();
-builder.Services.AddScoped<ILikeService, LikeService>();
-builder.Services.AddScoped<IMessageRepository, MessageRepository>();
-builder.Services.AddScoped<IMessageService, MessageService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding
-                            .UTF8.GetBytes(builder.Configuration.GetRequiredSection("TokenKey").Value)),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                });
-
-
-
-builder.Services.AddAuthorization(opt =>
-{
-    opt.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
-    opt.AddPolicy("RequiredShelterOwnerRole", policy => policy.RequireRole("ShelterOwner"));
-    opt.AddPolicy("RequiredShelterWorkerRole", policy => policy.RequireRole("ShelterWorker"));
-});
-
-builder.Services.AddIdentityCore<User>(opt =>
-{
-    opt.Password.RequireNonAlphanumeric = false;
-})
-    .AddRoles<Role>()
-    .AddRoleManager<RoleManager<Role>>()
-    .AddEntityFrameworkStores<PsinderDb>();
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 

@@ -82,13 +82,14 @@ namespace Psinder.Services
                 throw new NotFoundException("Recipient not found.");
             }
 
-            var roles = await _userManager.GetRolesAsync(recipient);
+            var recipientRoles = await _userManager.GetRolesAsync(recipient);
+            var senderRoles = await _userManager.GetRolesAsync(sender);
 
-            if (!roles.Contains("ShelterOwner") && !roles.Contains("ShelterWorker"))
+            if((!senderRoles.Contains("User") || (!recipientRoles.Contains("ShelterOwner") && !recipientRoles.Contains("ShelterWorker")))&&
+                !senderRoles.Contains("ShelterOwner") && !senderRoles.Contains("ShelterWorker") || !recipientRoles.Contains("User"))
             {
                 throw new BadRequestException("You cannot message a user.");
             }
-
             var message = new Message
             {
                 Sender = sender,

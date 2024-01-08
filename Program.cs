@@ -56,6 +56,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization(opt =>
 {
     opt.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
+    opt.AddPolicy("RequiredShelterOwnerRole", policy => policy.RequireRole("ShelterOwner"));
+    opt.AddPolicy("RequiredShelterWorkerRole", policy => policy.RequireRole("ShelterWorker"));
 });
 
 builder.Services.AddIdentityCore<User>(opt =>

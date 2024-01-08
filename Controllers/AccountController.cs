@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Psinder.Dtos.UserDtos;
 using Psinder.Services.Interfaces;
 
 namespace Psinder.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("api/account")]
     public class AccountController : ControllerBase

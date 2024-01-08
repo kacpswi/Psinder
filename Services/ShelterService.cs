@@ -29,19 +29,32 @@ namespace Psinder.Services
             {
                 throw new NotFoundException("User not found");
             }
+            if (user.ShelterId != null)
+            {
+                throw new BadRequestException("You cannot be owner of multiple shelters");
+            }
             shelter.Workers.Add(user);
             await _uow.ShelterRepository.AddAsync(shelter);
             await _uow.Complete();
             return shelter.Id;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id, int userId)
         {
             var shelter = await _uow.ShelterRepository.GetByIdAsync(id);
             if (shelter != null)
             {
-                _uow.ShelterRepository.Delete(shelter);
-                await _uow.Complete();
+                var user = await _uow.UserRepository.GetUserByIdAsync(userId);
+                if(user.ShelterId == shelter.Id)
+                {
+                    user.ShelterId = null;
+                    _uow.ShelterRepository.Delete(shelter);
+                    await _uow.Complete();
+                }
+                else
+                {
+                    throw new BadRequestException("You cannot delete others shelter");
+                }
             }
             else 
             {
@@ -73,13 +86,20 @@ namespace Psinder.Services
             }
         }
 
-        public async Task UpdateAsync(int id, UpdateShelterDto dto)
+        public async Task<ShelterDto> UpdateAsync(int id, UpdateShelterDto dto, int userId)
         {
             var shelter = await _uow.ShelterRepository.GetByIdAsync(id);
             if(shelter != null)
             {
-                _mapper.Map(dto, shelter);
+                var user = await _uow.UserRepository.GetUserByIdAsync(userId);
+                if(user.ShelterId != shelter.Id)
+                {
+                    throw new BadRequestException("You cannot edit others shelter");
+                }
+                var newShelter = _mapper.Map(dto, shelter);
                 await _uow.Complete();
+                var newShelterDto = _mapper.Map<ShelterDto>(newShelter);
+                return newShelterDto;
             }
             else
             {

@@ -10,6 +10,7 @@ namespace Psinder.Controllers
 {
     [ApiController]
     [Route("api/shelter")]
+    [Authorize]
     public class ShelterController : ControllerBase
     {
         private readonly IShelterService _shelterService;
@@ -18,6 +19,7 @@ namespace Psinder.Controllers
             _shelterService = shelterService;
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<ShelterDto>> GetShelter([FromRoute]int id)
         {
@@ -25,7 +27,7 @@ namespace Psinder.Controllers
             return Ok(result);
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<PagedResult<ShelterDto>>> GetAll([FromQuery]PageQuery query)
         {
@@ -33,6 +35,7 @@ namespace Psinder.Controllers
             return Ok(result);
         }
 
+        [Authorize( Roles = "ShelterOwner")]
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] CreateShelterDto dto)
         {
@@ -40,18 +43,20 @@ namespace Psinder.Controllers
             return Created($"/api/shelter/{id}", null);
         }
 
+        [Authorize(Roles = "ShelterOwner")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromRoute]int id)
         {
-            await _shelterService.DeleteAsync(id);
+            await _shelterService.DeleteAsync(id, User.GetUserId());
             return NoContent();
         }
 
+        [Authorize(Roles = "ShelterOwner")]
         [HttpPut("{id}")]
         public async Task<ActionResult> Edit([FromRoute] int id, [FromBody] UpdateShelterDto dto)
         {
-            await _shelterService.UpdateAsync(id, dto);
-            return Ok();
+            var result = await _shelterService.UpdateAsync(id, dto, User.GetUserId());
+            return Ok(result);
         }
     }
 }

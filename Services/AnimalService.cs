@@ -18,7 +18,7 @@ namespace Psinder.Services
             _uow = uow;
             _mapper = mapper;
         }
-        public async Task<int> AddAsync(int shelterId, CreateAnimalDto dto)
+        public async Task<int> AddAsync(int shelterId, CreateAnimalDto dto, int userId)
         {
             var shelter = await _uow.ShelterRepository.GetByIdAsync(shelterId);
 
@@ -26,14 +26,18 @@ namespace Psinder.Services
             {
                 throw new NotFoundException("Shelter not found");
             }
-            else
+
+            
+            if(!await IsUserWorker(shelterId,userId))
             {
-                var animal = _mapper.Map<Animal>(dto);
-                animal.ShelterId = shelterId;
-                await _uow.AnimalRepository.AddAsync(animal);
-                await _uow.Complete();
-                return animal.Id;
+                throw new BadRequestException("You cannot add animal to others shelter");
             }
+
+            var animal = _mapper.Map<Animal>(dto);
+            animal.ShelterId = shelterId;
+            await _uow.AnimalRepository.AddAsync(animal);
+            await _uow.Complete();
+            return animal.Id;
             
         }
 
@@ -79,24 +83,37 @@ namespace Psinder.Services
             }
         }
 
-        public async Task RemoveByIdAsync(int shelterId, int animalId)
+        public async Task RemoveByIdAsync(int shelterId, int animalId, int userId)
         {
             var shelter = await _uow.ShelterRepository.GetByIdAsync(shelterId);
 
             var animal = await _uow.AnimalRepository.GetByIdAsync(animalId);
 
-            if(animal == null || animal.ShelterId != shelterId)
+            if (shelter == null)
+            {
+                throw new NotFoundException("Shelter not found");
+            }
+
+            if (animal == null)
             {
                 throw new NotFoundException("Animal not found");
             }
-            else
+
+            if(!await IsUserWorker(shelterId,userId))
             {
-                _uow.AnimalRepository.Delete(animal);
-                await _uow.Complete();
+                throw new BadRequestException("You cannot remove animal from others shelter");
             }
+
+            if(animal.ShelterId != shelterId)
+            {
+                throw new BadRequestException("This animal do not belong to this shelter");
+            }
+
+            _uow.AnimalRepository.Delete(animal);
+            await _uow.Complete();
         }
 
-        public async Task UpdateAsync(int shelterId, int animalId, UpdateAnimalDto dto)
+        public async Task UpdateAsync(int shelterId, int animalId, UpdateAnimalDto dto, int userId)
         {
             var shelter = await _uow.ShelterRepository.GetByIdAsync(shelterId);
             var animal = await _uow.AnimalRepository.GetByIdAsync (animalId);
@@ -108,11 +125,24 @@ namespace Psinder.Services
             {
                 throw new NotFoundException("Animal not found");
             }
-            else
+            else if (!await IsUserWorker(shelterId, userId))
             {
-                _mapper.Map(dto, animal);
-                await _uow.Complete();
+                throw new BadRequestException("You cannot edit animal from others shelter");
             }
+            else if (animal.ShelterId != shelterId)
+            {
+                throw new BadRequestException("This animal do not belong to this shelter");
+            }
+
+            _mapper.Map(dto, animal);
+            await _uow.Complete();
+        }
+
+        private async Task<bool> IsUserWorker(int shelterId, int userId)
+        {
+            var user = await _uow.UserRepository.GetUserByIdAsync(userId);
+
+            return user.ShelterId == shelterId;
         }
     }
 }

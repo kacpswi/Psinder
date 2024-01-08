@@ -9,7 +9,7 @@ namespace Psinder.Controllers
 {
     [ApiController]
     [Route("api/admin")]
-    //[Authorize(Policy = "RequiredAdminRole")]
+    [Authorize(Policy = "RequiredAdminRole")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Psinder.Dtos.MessageDtos;
 using Psinder.Extensions;
 using Psinder.Helpers;
@@ -8,6 +9,7 @@ namespace Psinder.Controllers
 {
     [ApiController]
     [Route("api/messages")]
+    [Authorize]
     public class MessageController : ControllerBase
     {
         private readonly IMessageService _messageService;

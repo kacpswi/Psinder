@@ -64,6 +64,7 @@ namespace Psinder.Repositories
         public async Task<Shelter> GetByIdAsync(int id)
         {
             var result = await _context.Shelters.
+                Include(w => w.Workers).
                 Include(a => a.Animals).
                 FirstOrDefaultAsync(s => s.Id == id);
             return result;

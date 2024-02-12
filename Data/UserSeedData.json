@@ -1,0 +1,30 @@
+[
+  {
+    "Email": "kacper@gmail.com",
+    "Name": "Kacper",
+    "Surename": "xxx",
+    "City": "Sosnowiec",
+    "Country": "Polska"
+  },
+  {
+    "Email": "bartosz@gmail.com",
+    "Name": "Bartosz",
+    "Surename": "xxx",
+    "City": "Gliwice",
+    "Country": "Polska"
+  },
+  {
+    "Email": "szymon@gmail.com",
+    "Name": "Szymon",
+    "Surename": "xxx",
+    "City": "Katowice",
+    "Country": "Polska"
+  },
+  {
+    "Email": "julia@gmail.com",
+    "Name": "Julia",
+    "Surename": "xxx",
+    "City": "Sosnowiec",
+    "Country": "Polska"
+  }
+]

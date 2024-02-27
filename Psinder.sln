@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Psinder", "Psinder.csproj", "{69F2613B-BFBB-4B63-9508-5AA54A8986AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Psinder", "Psinder.csproj", "{69F2613B-BFBB-4B63-9508-5AA54A8986AF}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "PsinderClient", "..\..\PsinderClient\PsinderClient.esproj", "{0774F86E-6C66-4196-B626-CE2652A2DEA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,12 @@ Global
 		{69F2613B-BFBB-4B63-9508-5AA54A8986AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69F2613B-BFBB-4B63-9508-5AA54A8986AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69F2613B-BFBB-4B63-9508-5AA54A8986AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0774F86E-6C66-4196-B626-CE2652A2DEA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0774F86E-6C66-4196-B626-CE2652A2DEA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0774F86E-6C66-4196-B626-CE2652A2DEA8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0774F86E-6C66-4196-B626-CE2652A2DEA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0774F86E-6C66-4196-B626-CE2652A2DEA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0774F86E-6C66-4196-B626-CE2652A2DEA8}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

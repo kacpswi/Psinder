@@ -23,6 +23,7 @@ namespace Psinder.Extensions
             services.AddSwaggerGen();
             services.AddDbContext<PsinderDb>(
                 options => options.UseSqlServer(config.GetConnectionString("Psinder")));
+            services.AddCors();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<IShelterRepository, ShelterRepository>();
             services.AddScoped<IShelterService, ShelterService>();
